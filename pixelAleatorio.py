@@ -2,8 +2,8 @@ from PIL import Image
 import random
 
 
-tamanhoDoLote = 1
-imagemBase = "logoBase.jpeg"
+tamanhoDoLote = 42
+imagemBase = "logo02.jpeg"
 nomeImagens = "NovasImagens\logo"
 contadorArquivo = "contagem.txt"
 
@@ -50,3 +50,6 @@ for i in range(numeroAtual, numeroAtual + tamanhoDoLote):
 numeroAtual += tamanhoDoLote
 with open(contadorArquivo, "w") as file:
     file.write(str(numeroAtual))
+
+
+# exited with code=0 in 333.548 seconds

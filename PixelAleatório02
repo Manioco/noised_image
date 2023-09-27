@@ -1,0 +1,40 @@
+from PIL import Image
+import numpy as np
+import random
+import os
+
+tamanhoDoLote = 42
+imagemBase = "logo02.jpeg"
+nomeImagens = "novasimagens2/logo"
+contadorArquivo = "contagem.txt"
+
+# Função para criar imagens com ruído
+def addNoise(imagemDeBase, nomeNovaImagem, noiseLevel):
+    imagem = Image.open(imagemDeBase)
+    imagem_array = np.array(imagem)
+
+    noise = np.random.randint(-noiseLevel, noiseLevel, size=imagem_array.shape, dtype=int)  # Alteração aqui
+    imagem_array = np.clip(imagem_array + noise, 0, 255).astype(np.uint8)
+
+    imagem_com_ruido = Image.fromarray(imagem_array)
+    imagem_com_ruido.save(nomeNovaImagem, "PNG")
+
+# Abrir documento do contador
+try:
+    with open(contadorArquivo, "r") as file:
+        numeroAtual = int(file.read())
+except FileNotFoundError:
+    print(f"Não encontrei o documento -> {contadorArquivo}")
+    numeroAtual = 0
+
+# Criar imagens em lote
+for i in range(numeroAtual, numeroAtual + tamanhoDoLote):
+    nomeNovaImagem = f"{nomeImagens} {i}.png"
+    addNoise(imagemBase, nomeNovaImagem, noiseLevel=10)
+
+# Atualizar a contagem
+numeroAtual += tamanhoDoLote
+with open(contadorArquivo, "w") as file:
+    file.write(str(numeroAtual))
+
+# [Done] exited with code=0 in 34.323 seconds
